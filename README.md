@@ -1,21 +1,25 @@
-# Fork - La/u/ncher `4.2.5`
+# Fork - La/u/ncher `4.2.5.a3`
 <img width="660" height="365" alt="1000471715" src="https://github.com/user-attachments/assets/2320d05a-b363-4774-820f-ffa1586e844a" />
 
 ## Use In Browser https://xetsue.github.io/la-u-ncher/
+> Last patched Sunday Feb 8 2026.
 
-> Original code forked from [Nilesr](https://github.com/nilesr/)
+## Xsu Changelog Patch `.a0-3`
+> Xsu Alphanumeric Patches are unofficial patches updated to the original code base version of `4.2.5`. You can find the legacy files [here](https://github.com/nilesr/United4).
 
-## Website Changelog 
-Patches done to `index.html` include,
+Patches done to `index.html` based on `v4.2.5`:
+`.A0`
 - ​New Default Theme: Set Empire as the primary theme fallback for first-time loads.
 - ​Theme Logic Fix: Resolved an issue where the homepage would appear empty if no theme was manually customized in the app settings.
+
+`.A2`
 - QoL Update: Added Pong to the main page with bots autoplay and user controls when interacted.
 - ><img width="1080" height="1241" alt="1000471754" src="https://github.com/user-attachments/assets/fe3b2538-907d-4c4e-8ce9-a0f6cd4dbd8b" /> Tap left or right in active area to control. On desktop, use S and D keys / Arrow keys to play. 
 
-  
+`.A3`
 - ​Code Structure: Added secondary validation to the theme variable to ensure assets are retrieved even if the property service returns a null or empty string.
 
-## Legacy App Release
+## Legacy App Release / Fork Resources
 <img width="188" height="102" alt="1000471629" src="https://github.com/user-attachments/assets/28e8ce7f-bba0-4ff1-929f-ab307962f4af" />
 
 Can be found in [United4/releases](https://github.com/nilesr/United4/releases/tag/4.2.5)
@@ -26,6 +30,8 @@ Play Store: `[ Outaded ]` ~~[Unavailable](https://play.google.com/store/apps/det
 
 
 # Legacy Records
+Recorded patches and dev notes from 4.2.5 unmodified releases.
+
 ### Known Recorded bugs
 
 - ~~Changing the bar color won't take full effect until all UserscriptActivity instances are destroyed (i.e. rotating the screen or restarting the app)~~ Fixed in 4.1.5
@@ -50,6 +56,9 @@ Play Store: `[ Outaded ]` ~~[Unavailable](https://play.google.com/store/apps/det
 - Add inner padding for patch notes button
 - Fix infinite scrolling
 - Bigger page numbers (accidental click on the footer)
+
+### End Of Legacy Records
+---
 
 # License
 
