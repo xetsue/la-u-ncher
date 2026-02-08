@@ -5,6 +5,12 @@
 
 > Original code forked from [Nilesr](https://github.com/nilesr/)
 
+## Website Changelog 
+Patches done to `index.html` include,
+- ​New Default Theme: Set Empire as the primary theme fallback for first-time loads.
+- ​Theme Logic Fix: Resolved an issue where the homepage would appear empty if no theme was manually customized in the app settings.
+- ​Code Structure: Added secondary validation to the theme variable to ensure assets are retrieved even if the property service returns a null or empty string.
+
 ## Legacy App Release
 <img width="188" height="102" alt="1000471629" src="https://github.com/user-attachments/assets/28e8ce7f-bba0-4ff1-929f-ab307962f4af" />
 
