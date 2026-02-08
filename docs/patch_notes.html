@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+    <head>
+        <script src="mock.js"></script>
+        <style>
+            body {
+                background-color: #444444;
+                color: white;
+                /*
+                font-size: 150%;
+                */
+                font-family: monospace;
+            }
+            button {
+                line-height: 40px;
+                width: 100%;
+                margin: 0 0 0 0;
+                border: 3px solid black;
+                background-color: lightgrey;
+                font-size: 25px;
+            }
+            a {
+                color: lightgrey;
+            }
+        </style>
+        <script>
+            var ol = function onLoad() {
+                //
+            }
+            var makeExtras = function makeExtras(obj) {
+                // ""Abstraction""
+                return JSON.stringify(obj);
+            }
+            var settings = function settings() {
+                unitedPropertiesIf.doAction("com.angryburg.uapp", "com.angryburg.uapp.activities.HiddenSettingsActivity", makeExtras({"fragment": "SETTINGS_LIST"}));
+            }
+        </script>
+    </head>
+    <body onLoad='ol()'>
+        <button onClick="settings()">Open Settings</button>
+        <h3>4.2.5:</h3>
+        - Fix bug where opening a thread from the thread watcher would not draw a bar or jump to the bar<br />
+        - Add panel to allow user to specify a custom bar color<br />
+        - Update settings UI to have actual toggles and allow updating a setting without scrolling back to the top<br />
+        - Add option to hide threads from the toolbar
+        <h3>4.2.4:</h3>
+        - Add Motif theme by Bird &lt;<a href="mailto:bird-dangeru@protonmail.com">bird-dangeru@protonmail.com</a>&gt;<br />
+        - Add Kids theme by SaltyStan &lt;<a href="mailto:saltystan@airmail.cc">saltystan@airmail.cc</a>&gt;
+        <h3>4.2.3:</h3>
+        - Fix crash due to Android thinking that Stack is parcelable but actually giving me an ArrayList when I unpack it.
+        <h3>4.2.2:</h3>
+        - Added Lain theme by Fartox &lt;<a href="mailto:lauticorchero@gmail.com">lauticorchero@gmail.com</a>&gt;<br />
+        - Added Neon theme by Moge-Ko &lt;<a href="mailto:mogmog.mogeko@gmail.com">mogmog.mogeko@gmail.com</a>&gt;<br />
+        - Migrate from a file-based format to Android's built in SharedPreferences. This should hopefully fix the bug where your preferences would randomly be reset.<br />
+        - Notifications! Notifications are enabled by default for direct replies to your posts, and will automatically check for new notifications once every half-day, more options are available in settings. Notifications are not available on API level 26 (Android 8.0) and above. Thanks to users 8878c9 and be54d0 of /test/163648, and users 70e156, e9f469 and b779e1 of /test/69372<br />
+        - The thread watcher now indicates which threads are locked and has a menu item to let you remove all locked threads at once. Thanks to user ed1741 of /test/163648
+        <h3>4.2.1:</h3>
+        - Fix bug where deleted threads could not be removed from the thread watcher. Thanks to user ab8d03 of /test/118681<br />
+        - Add option to show (You)s, (OP)s and your own ID.<br />
+        - Cache closed threads to speed up refreshing the thread watcher.<br />
+        - Dark theme added. Thanks to users 302beb and 805c8c of /test/69372<br />
+        - Option to launch to boards list. Thanks to user 805c8c of /test/69372
+        <h3>4.2.0:</h3>
+        - Add an option to remove patch notes text,thanks to user 59186a of /test/113577<br />
+        - Add an option to draw a bar at beginning of new replies, and an option to jump to the bar. Thanks to users a52e82 and 622db3 of /test/69372.<br />
+        - Add a new debug option for modifying properties at runtime
+        <h3>4.1.9:</h3>
+        - Moved the userscript specific settings into the main panel and removed the invisible button from the bottom left on mobile. Thanks to user 3d8918 of /test/66425<br />
+        - Share button added. It will be shown in the dropdown menu if you're browsing inside a specific thread and have userscript enabled. Thanks to user 07019b of /test/69372
+        <h3>4.1.8:</h3>
+        - Creating a new thread automatically watches it.<br />
+        - Option added to automatically watch a thread when you reply to it. Default is enabled.
+        <h3>4.1.7:</h3>
+        - Move userscript and startup music toggles into the main settings pane<br />
+        - Correct the startup music song from Every Day is Night to Safe Haven, thanks to user 5c0371 of /test/62399.<br />
+        - Fixed a bug where turning the music on or off would not update the icon on the home screen if "Do Not Keep Activities" was turned off, thanks to user de4ff5 of /test/63702<br />
+        - Add an option to mute sound effects (does not affect music), thanks to user b3dd2f of /u/53096
+        <h3>4.1.6:</h3>
+        - Fix a bug where new properties were not being set to their default values in patch updates<br />
+        - Add a property to allow the window bar color to match (or approximate) the toolbar color on Android 5+.<br />
+        - New installations no longer have startup music enabled by default
+        <h3>4.1.5:</h3>
+        - Add activity back button in the dropdown menu in UserscriptActivity<br />
+        - Fixed a bug where changing the bar color required an app restart to fully apply if the user had "Don't keep activities" turned off.
+        <h3>4.1.4:</h3>
+        - App ID changed again
+        <h3>4.1.3:</h3>
+        - Add back soundtrack<br />
+        - Add board descriptions to shortcut creator
+        <h3>4.1.3:</h3>
+        - Remove everything but danger/u/ to avoid another copyright takedown, thanks google
+        <h3>4.1.2:</h3>
+        - Empire theme added<br />
+        - New icon for new alerts in the thread watcher<br />
+        - Letterboxing on nanocam
+        <h3>4.1.1:</h3>
+        - Unity theme added<br />
+        - Default awoo endpoint switched to dangeru.us<br />
+        - Settings menu added with color picker for menu bar<br />
+        - Fixed launch to thread watcher intent
+        <h3>4.1.0:</h3>
+        - Shortcuts added<br />
+        - Thread watcher works properly<br />
+        - Menus added to UserscriptActivity<br />
+        - This will be the first release on the google play store
+        <h3>4.0.7:</h3>
+        - Noir and vaporwave pick icons have the proper drop shadow now<br />
+        - Burg theme added<br />
+        - Beta test of thread watcher added. To try it out, toggle startup music seven times, and enable userscript in the settings pane.
+        <h3>4.0.6:</h3>
+        - Noir theme added<br />
+        - Vaporwave theme updated<br />
+        - Music works in web browser version (niles.xyz/united)
+        <h3>4.0.5:</h3>
+        - Renamed from /u/nited to la/u/ncher
+        <h3>4.0.4:</h3>
+        - Anon E's assets removed
+        <h3>4.0.3:</h3>
+        - Vaporwave theme added
+        <h3>4.0.2:</h3>
+        - Patreon button removed for real
+        <h3>4.0.1:</h3>
+        - Patreon button removed<br />
+        - Fixed bug where the main page wouldn't reload after changing the theme
+        <h3>4.0:</h3>
+        - Rewrote app from scratch
+        <h3>3.7:</h3>
+        - Bug fixes
+        <h3>3.6:</h3>
+        -COMPLETE MUSIC ENGINE OVERHAUL
+        <br />
+        ~Bug fixes
+        <br />
+        ~Added Startup music setting
+        <br />
+        ~Added Kira Miki app
+        <br />
+        ~More themes
+        <h3>PLEASE HELP US!:</h3>
+        <img style="width: 100%; margin: 0 0 0 0;" onClick='unitedPropertiesIf.launchHTML("https://patreon.com/prefetcher")' src="patreon.png" />
+        <br />
+        We really need your help to keep /u/ alive.
+        <br />
+        <br />
+        <h3>CREDIT (Twitter):</h3>
+        @TheAnonE - Trying to dox the owner of the site then changing the password to the patreon and google play store account when he got banned. Thanks Anon E
+        <br />
+        @garoadmusic - Allowed us to use his soundtrack!
+        <br />
+        @SukebanGames - Created the game Va-11 Hall-a
+        <br />
+        @purifetchi - Creation of danger/u/ &amp; The Augmented Eye
+        <br />
+        @Kuronekoshi - Donated 25$ so we could post the original app on the play store
+    </body>
+</html>
