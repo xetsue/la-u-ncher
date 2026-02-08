@@ -4,8 +4,7 @@
 
 Resize your browser to be phone-sized and visit https://niles.xyz/united
 
-### Try it on your phone!
-
+#### Original links for phone use case
 https://github.com/nilesr/United4/releases/tag/4.2.5
 
 Direct link: https://niles.xyz/uapp-4.2.5.apk
