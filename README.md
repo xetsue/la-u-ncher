@@ -8,6 +8,7 @@
 > Xsu Alphanumeric Patches are unofficial patches updated to the original code base version of `4.2.5`. You can find the legacy files [here](https://github.com/nilesr/United4).
 
 Patches done to `index.html` based on `v4.2.5`:
+---
 `.A0`
 - ​New Default Theme: Set Empire as the primary theme fallback for first-time loads.
 - ​Theme Logic Fix: Resolved an issue where the homepage would appear empty if no theme was manually customized in the app settings.
