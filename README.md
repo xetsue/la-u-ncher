@@ -10,7 +10,7 @@ Patches done to `index.html` include,
 - ​New Default Theme: Set Empire as the primary theme fallback for first-time loads.
 - ​Theme Logic Fix: Resolved an issue where the homepage would appear empty if no theme was manually customized in the app settings.
 - QoL Update: Added Pong to the main page with bots autoplay and user controls when interacted.
-- ><img width="1080" height="1241" alt="1000471754" src="https://github.com/user-attachments/assets/fe3b2538-907d-4c4e-8ce9-a0f6cd4dbd8b" />
+- ><img width="1080" height="1241" alt="1000471754" src="https://github.com/user-attachments/assets/fe3b2538-907d-4c4e-8ce9-a0f6cd4dbd8b" /> Tap left or right in active area to control. On desktop, use S and D keys / Arrow keys to play. 
 
   
 - ​Code Structure: Added secondary validation to the theme variable to ensure assets are retrieved even if the property service returns a null or empty string.
