@@ -9,6 +9,8 @@
 Patches done to `index.html` include,
 - ​New Default Theme: Set Empire as the primary theme fallback for first-time loads.
 - ​Theme Logic Fix: Resolved an issue where the homepage would appear empty if no theme was manually customized in the app settings.
+- QoL Update: Added Pong to the main page with bots autoplay and user controls when interacted.
+- 
 - ​Code Structure: Added secondary validation to the theme variable to ensure assets are retrieved even if the property service returns a null or empty string.
 
 ## Legacy App Release
