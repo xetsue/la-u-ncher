@@ -67,12 +67,15 @@
                     }
                 });
                 // default theme and playing if there's a problem pulling them from unitedPropertiesIf
-                var theme = "normal";
+                var theme = "Empire";
                 var playing = false;
                 try {
                     // get theme, playing, whether to play startup music or not from properties and
                     // whether or not we've played open_phone.mp3 yet from session variables
                     theme = unitedPropertiesIf.getProperty("theme");
+                    if (theme == null || theme == undefined || theme.trim().length == 0) {
+                        theme = "Empire";
+                    }
                     playing = unitedPropertiesIf.getProperty("is_playing").toUpperCase() == "TRUE";
                     var startup_music = unitedPropertiesIf.getProperty("startup_music").toUpperCase() == "TRUE" && unitedPropertiesIf.getSessionVariable("started_startup_music").toUpperCase() != "TRUE";
                     console.log("PropertiesSingleton reports startup_music as " + startup_music);
@@ -101,7 +104,7 @@
                 }
                 // if we failed to pull the theme, make it default to "normal" just in case
                 if (theme == null || theme == undefined || theme.trim().length == 0) {
-                    theme = "normal";
+                    theme = "Empire";
                 }
                 // set the background image to `theme`_home.png
                 document.body.style.background = "url(\"" + theme + "_home.png\") no-repeat center/cover fixed";
@@ -181,9 +184,6 @@
 </style>
     </head>
     <body onLoad='ol()'>
-        <!--
-        <div class="row one_two">
-        -->
         <div class="row one_three">
             <img id="dangeru" onClick="window.dangeru()" />
             <img id="patch_notes" onClick="unitedPropertiesIf.launchHTML('file:///android_res/raw/patch_notes.html')" />
@@ -202,3 +202,4 @@
         </div>
     </body>
 </html>
+<!--In Memory of Xsu-->
