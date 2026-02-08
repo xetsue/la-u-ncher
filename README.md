@@ -22,7 +22,7 @@ Can be found in [United4/releases](https://github.com/nilesr/United4/releases/ta
 
 F-Droid App Page: [La/u/ncher](https://f-droid.org/packages/com.angryburg.uapp/)
 
-Play Store: `[ Outaded / Unavailable] ` ~~https://play.google.com/store/apps/details?id=com.angryburg.uapp~~ 
+Play Store: `[ Outaded ]` ~~[Unavailable](https://play.google.com/store/apps/details?id=com.angryburg.uapp)~~
 
 
 # Legacy Records
