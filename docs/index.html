@@ -4,11 +4,15 @@
         <script src="mock.js"></script>
         <script>
             var ol = function ol() {
+                var container = document.getElementById("screen_content");
+                if (!container) container = document.body;
+
                 var spacing = 10;
-                var total_width = document.body.clientWidth;
+                var total_width = container.clientWidth;
                 var running_height = 20;
                 var image_height = (total_width - (2 * spacing)) * (102 / 378);
-                if (unitedPropertiesIf.getProperty("debug").toUpperCase() == "TRUE") {
+                
+                if (typeof unitedPropertiesIf !== 'undefined' && unitedPropertiesIf.getProperty("debug").toUpperCase() == "TRUE") {
                     var r = document.createElement("div");
                     r.classList.add("row");
                     r.classList.add("one");
@@ -20,8 +24,9 @@
                     i.innerText = "Debug options";
                     i.style.position = "absolute";
                     r.appendChild(i);
-                    document.body.appendChild(r);
+                    container.appendChild(r);
                 }
+
                 Array.prototype.slice.call(document.getElementsByClassName("row"), 0).forEach(function(elem) {
                     elem.style.top = running_height + "px";
                     running_height += image_height + spacing;
@@ -48,29 +53,26 @@
                         elem.children[1].style.width = (first_width * 3).toString() + "px";
                     }
                 });
-                var theme = "Empire";
+
+                var theme = "neon";
                 var playing = false;
                 try {
                     theme = unitedPropertiesIf.getProperty("theme");
                     if (theme == null || theme == undefined || theme.trim().length == 0) {
-                        theme = "Empire";
+                        theme = "neon";
                     }
                     playing = unitedPropertiesIf.getProperty("is_playing").toUpperCase() == "TRUE";
                     var startup_music = unitedPropertiesIf.getProperty("startup_music").toUpperCase() == "TRUE" && unitedPropertiesIf.getSessionVariable("started_startup_music").toUpperCase() != "TRUE";
-                    console.log("PropertiesSingleton reports startup_music as " + startup_music);
-                    console.log("PropertiesSingleton reports playing as " + playing);
+                    
                     var opened = unitedPropertiesIf.getSessionVariable("open_phone_played")
                     if (opened != null && opened != undefined && opened.trim().toUpperCase() == "TRUE") {
                         opened = true;
-                        console.log("Already opened not playing sound: " + opened)
                     } else {
-                        console.log("Playing sound")
                         unitedPropertiesIf.setSessionVariable("open_phone_played", true.toString());
                         unitedPropertiesIf.playSound("open_phone.mp3");
                     }
                     if (startup_music && !playing) {
                         playing = true;
-                        console.log("Playing welcome music")
                         unitedPropertiesIf.playSong("Safe Haven", false);
                         unitedPropertiesIf.setProperty("current_song", "Safe Haven");
                         unitedPropertiesIf.setSessionVariable("started_startup_music", "true");
@@ -78,17 +80,20 @@
                 } catch (e) {
                 }
                 if (theme == null || theme == undefined || theme.trim().length == 0) {
-                    theme = "Empire";
+                    theme = "neon";
                 }
-                document.body.style.background = "url(\"" + theme + "_home.png\") no-repeat center/cover fixed";
+                
+                container.style.background = "url(\"" + theme + "_home.png\") no-repeat center/cover fixed";
                 if (theme == "motif") {
-                    document.body.style.background = "url(\"" + theme + "_home.png\") repeat fixed";
+                    container.style.background = "url(\"" + theme + "_home.png\") repeat fixed";
                 }
+
                 Array.prototype.slice.call(document.getElementsByTagName("img"), 0).forEach(function(elem) {
                     elem.style.height = image_height.toString() + "px";
                     if (elem.id == "music" && !playing) elem.id = "music2"
                     elem.src = theme + "_" + elem.id + ".png";
                 });
+
                 var pn = document.getElementById("patch_notes");
                 var pnt = document.getElementById("patch_notes_text");
                 pnt.style.left = pn.style.left;
@@ -113,7 +118,9 @@
                 if (theme == "noir") pnt.style.color = "black";
 
                 initPong(running_height + 40);
+                initWindowDrag();
             }
+
             var kira_counter = 0;
             window.kira = function kira() {
                 var kira_counter = Number(unitedPropertiesIf.getSessionVariable("kira_counter"))
@@ -143,7 +150,7 @@
                 var inputBallS = document.getElementById('setting_ball_s');
                 var inputBallSNum = document.getElementById('setting_ball_s_num');
 
-                var availHeight = window.innerHeight - topOffset - 20;
+                var availHeight = document.getElementById('screen_content').clientHeight - topOffset - 20;
                 if(availHeight < 250) availHeight = 250; 
 
                 container.style.top = topOffset + "px";
@@ -155,9 +162,9 @@
                 var state = {
                     playing: true,
                     auto: true,
-                    pSpeed: 7,
-                    bSpeedBase: 4,
-                    bSpeed: 4,
+                    pSpeed: 4,
+                    bSpeedBase: 2,
+                    bSpeed: 2,
                     pWidth: 149,
                     pHeight: 12,
                     bSize: 15,
@@ -182,7 +189,9 @@
                     p1.y = canvas.height - 40;
                     if(ball.y > canvas.height) ball.y = canvas.height/2;
                 }
-                window.addEventListener('resize', resize);
+                
+                var resizeObserver = new ResizeObserver(function() { resize(); });
+                resizeObserver.observe(container);
 
                 function draw() {
                     ctx.clearRect(0,0, canvas.width, canvas.height);
@@ -319,7 +328,7 @@
 
                 document.getElementById('btn_rst_theme').onclick = function() {
                      try {
-                        unitedPropertiesIf.setProperty("theme", "Empire");
+                        unitedPropertiesIf.setProperty("theme", "neon");
                         location.reload();
                      } catch(e) { location.reload(); }
                 }
@@ -335,8 +344,185 @@
 
                 loop();
             }
+
+            function initWindowDrag() {
+                var win = document.getElementById("emulator_window");
+                var header = document.getElementById("window_header");
+                if (!win || !header) return;
+
+                var isDragging = false;
+                var offsetX = 0;
+                var offsetY = 0;
+
+                header.onmousedown = function(e) {
+                    isDragging = true;
+                    
+                    var rect = win.getBoundingClientRect();
+                    
+                    if (win.style.transform !== "none") {
+                        win.style.left = rect.left + "px";
+                        win.style.top = rect.top + "px";
+                        win.style.transform = "none"; 
+                    }
+                    
+                    offsetX = e.clientX - rect.left;
+                    offsetY = e.clientY - rect.top;
+                };
+
+                document.onmouseup = function() {
+                    isDragging = false;
+                };
+
+                document.onmousemove = function(e) {
+                    if (isDragging) {
+                        var x = e.clientX - offsetX;
+                        var y = e.clientY - offsetY;
+                        win.style.left = x + "px";
+                        win.style.top = y + "px";
+                    }
+                };
+            }
         </script>
 <style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: monospace;
+        background-color: black;
+        overflow: hidden; 
+    }
+
+    #emulator_window {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background: transparent;
+    }
+
+    #window_header {
+        display: none;
+    }
+
+    #screen_content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    @media (min-width: 768px) {
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #000;
+        }
+
+        #emulator_window {
+            width: 450px; 
+            height: 800px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #dfdfdf;
+            border-style: outset;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            background-color: #c0c0c0;
+            resize: both;
+            overflow: hidden;
+            min-width: 320px;
+            min-height: 480px;
+        }
+
+        #window_header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 24px;
+            background: #000080;
+            padding: 0 4px;
+            cursor: default;
+            user-select: none;
+            flex-shrink: 0;
+            margin: 2px;
+        }
+
+        .win-title {
+            color: white;
+            font-family: Tahoma, sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        .win-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .win-btn {
+            width: 16px;
+            height: 14px;
+            border: 1px solid #fff;
+            border-right-color: #404040;
+            border-bottom-color: #404040;
+            border-left-color: #dfdfdf;
+            border-top-color: #dfdfdf;
+            background: #c0c0c0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: inset 1px 1px 0px #fff, inset -1px -1px 0px #808080;
+        }
+
+        .win-btn:active {
+            border: 1px solid #404040;
+            border-right-color: #fff;
+            border-bottom-color: #fff;
+            box-shadow: none;
+        }
+
+        .win-icon {
+            color: black;
+            font-family: sans-serif;
+            font-size: 10px;
+            font-weight: bold;
+            line-height: 10px;
+        }
+
+        #screen_content {
+            flex-grow: 1;
+            position: relative;
+            background-color: white; 
+            overflow-y: scroll;
+            border: 2px solid #808080;
+            border-style: inset;
+            margin: 0 2px 2px 2px;
+        }
+        
+        #screen_content::-webkit-scrollbar {
+            width: 16px;
+            background: #c0c0c0;
+        }
+        #screen_content::-webkit-scrollbar-thumb {
+            background: #c0c0c0;
+            border: 2px solid #dfdfdf;
+            border-style: outset;
+        }
+        #screen_content::-webkit-scrollbar-button {
+            background: #c0c0c0;
+            border: 2px solid #dfdfdf;
+            border-style: outset;
+            height: 16px;
+        }
+    }
+
     img, .row, #patch_notes_text {
         display: block;
         position: absolute;
@@ -344,11 +530,6 @@
     #patch_notes_text {
         text-align: center;
         color: white;
-    }
-    body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: monospace;
     }
 
     #pong_area {
@@ -461,65 +642,75 @@
         font-size: 16px;
         font-weight: bold;
     }
-
 </style>
     </head>
     <body onLoad='ol()'>
-        <div class="row one_three">
-            <img id="dangeru" onClick="window.dangeru()" />
-            <img id="patch_notes" onClick="unitedPropertiesIf.launchHTML('file:///android_res/raw/patch_notes.html')" />
-            <div id="patch_notes_text" onClick="unitedPropertiesIf.launchHTML('file:///android_res/raw/patch_notes.html')"></div>
-        </div>
-        <div class="row one_one">
-            <img id="ae" onClick="unitedPropertiesIf.launchHTML('https://augmented.dangeru.us/')" />
-            <img id="music" onClick='unitedPropertiesIf.launchHTML("file:///android_res/raw/music.html");' />
-        </div>
-        <div class="row one">
-            <img id="save" onClick="unitedPropertiesIf.launchHTML('http://sukeban.moe')" />
-        </div>
-        <div class="row one_one">
-            <img id="camo" onClick="unitedPropertiesIf.launchHTML('file:///android_res/raw/camo.html')" />
-            <img id="kira" onClick="unitedPropertiesIf.launchHTML('https://kiramiki.dangeru.us')" />
-        </div>
-
-        <div id="pong_area">
-            <div id="pong_header">
-                <div id="pong_score">Score <span style="color:red;">0</span> - 0</div>
-                <div class="pong_ui_group">
-                    <button class="pong-btn" id="btn_play">Pause</button>
-                    <button class="pong-btn" id="btn_auto">Auto: On</button>
-                    <button class="pong-btn" id="btn_settings">Settings</button>
+        <div id="emulator_window">
+            <div id="window_header">
+                <div class="win-title">uPhone Emulator</div>
+                <div class="win-controls">
+                    <div class="win-btn"><div class="win-icon">_</div></div>
+                    <div class="win-btn"><div class="win-icon">□</div></div>
+                    <div class="win-btn"><div class="win-icon">X</div></div>
                 </div>
             </div>
-            
-            <canvas id="pong_canvas"></canvas>
-            
-            <div id="ctrl_left" class="pong-ctrl"></div>
-            <div id="ctrl_right" class="pong-ctrl"></div>
-
-            <div id="settings_panel">
-                <div class="set-row">
-                    <label>Paddle Width</label>
-                    <input type="range" id="setting_paddle_w" min="20" max="300" value="149">
-                    <input type="number" id="setting_paddle_w_num" value="149">
+            <div id="screen_content">
+                <div class="row one_three">
+                    <img id="dangeru" onClick="window.dangeru()" />
+                    <img id="patch_notes" onClick="unitedPropertiesIf.launchHTML('file:///android_res/raw/patch_notes.html')" />
+                    <div id="patch_notes_text" onClick="unitedPropertiesIf.launchHTML('file:///android_res/raw/patch_notes.html')"></div>
                 </div>
-                <div class="set-row">
-                    <label>Ball Size</label>
-                    <input type="range" id="setting_ball_s" min="5" max="50" value="15">
-                    <input type="number" id="setting_ball_s_num" value="15">
+                <div class="row one_one">
+                    <img id="ae" onClick="unitedPropertiesIf.launchHTML('https://augmented.dangeru.us/')" />
+                    <img id="music" onClick='unitedPropertiesIf.launchHTML("file:///android_res/raw/music.html");' />
                 </div>
-                <button class="pong-btn" id="btn_reset_menu" style="width:100%; margin-top:10px;">Reset</button>
-            </div>
-        </div>
+                <div class="row one">
+                    <img id="save" onClick="unitedPropertiesIf.launchHTML('http://sukeban.moe')" />
+                </div>
+                <div class="row one_one">
+                    <img id="camo" onClick="unitedPropertiesIf.launchHTML('file:///android_res/raw/camo.html')" />
+                    <img id="kira" onClick="unitedPropertiesIf.launchHTML('https://kiramiki.dangeru.us')" />
+                </div>
 
-        <div id="reset_modal">
-            <div class="modal-box">
-                <p style="font-size: 18px; font-weight: bold;">Reset Options</p>
-                <button id="btn_rst_theme">Theme (Empire)</button>
-                <button id="btn_rst_pong">Pong Score</button>
-                <button id="btn_close_modal" style="margin-top:10px; background: #eee;">Cancel</button>
+                <div id="pong_area">
+                    <div id="pong_header">
+                        <div id="pong_score">Score <span style="color:red;">0</span> - 0</div>
+                        <div class="pong_ui_group">
+                            <button class="pong-btn" id="btn_play">Pause</button>
+                            <button class="pong-btn" id="btn_auto">Auto: On</button>
+                            <button class="pong-btn" id="btn_settings">Settings</button>
+                        </div>
+                    </div>
+                    
+                    <canvas id="pong_canvas"></canvas>
+                    
+                    <div id="ctrl_left" class="pong-ctrl"></div>
+                    <div id="ctrl_right" class="pong-ctrl"></div>
+
+                    <div id="settings_panel">
+                        <div class="set-row">
+                            <label>Paddle Width</label>
+                            <input type="range" id="setting_paddle_w" min="20" max="300" value="149">
+                            <input type="number" id="setting_paddle_w_num" value="149">
+                        </div>
+                        <div class="set-row">
+                            <label>Ball Size</label>
+                            <input type="range" id="setting_ball_s" min="5" max="50" value="15">
+                            <input type="number" id="setting_ball_s_num" value="15">
+                        </div>
+                        <button class="pong-btn" id="btn_reset_menu" style="width:100%; margin-top:10px;">Reset</button>
+                    </div>
+                </div>
+
+                <div id="reset_modal">
+                    <div class="modal-box">
+                        <p style="font-size: 18px; font-weight: bold;">Reset Options</p>
+                        <button id="btn_rst_theme">Theme (Neon)</button>
+                        <button id="btn_rst_pong">Pong Score</button>
+                        <button id="btn_close_modal" style="margin-top:10px; background: #eee;">Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
 </html>
-<!--In Memory of Xsu -->
